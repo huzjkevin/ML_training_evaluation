@@ -1,0 +1,33 @@
+model:
+    type: "cnn"
+
+dataset:
+    data_dir: "./data" 
+
+dataloader:
+    batch_size: 64
+    num_workers: 8
+
+pipeline:
+    Trainer:
+        grad_norm_clip: -1.0
+        ckpt_interval: 5
+        eval_interval: 5
+        epoch: 40
+
+    Optim:
+        scheduler_kwargs:
+            epoch0: 0
+            epoch1: 40
+            lr0: 1.e-3
+            lr1: 1.e-6
+
+    Logger:
+        log_dir: "./logs/"
+        tag: "hw"
+        log_fname: "log.txt"
+        backup_list: []
+
+    
+
+
