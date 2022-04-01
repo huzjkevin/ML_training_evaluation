@@ -8,13 +8,13 @@ The framework contains a hello-world example that implements a simple classifier
     python hw_train.py
 
 Brief explanation of the directories:
-    1. cfgs: for config files that includes all the necessary ML parameters
-    2. data: for datasets (create yourself usually)
-    3. exps: for desigining experiments
-    4. logs: for saving experiment results, file backup, and experiment logs
-    5. scripts: for batch jobs (e.g. slurm)
-    6. src: source code of the pipeline
-    7. tests: not particularly intended. Just for doing some tests
+1. cfgs: for config files that includes all the necessary ML parameters
+2. data: for datasets (create yourself usually)
+3. exps: for desigining experiments
+4. logs: for saving experiment results, file backup, and experiment logs
+5. scripts: for batch jobs (e.g. slurm)
+6. src: source code of the pipeline
+7. tests: not particularly intended. Just for doing some tests
 
 To customize this pipeline, users are suggested to create the following files (but not limited to):
 
