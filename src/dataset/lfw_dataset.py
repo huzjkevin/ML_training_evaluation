@@ -6,7 +6,7 @@ import cv2
 
 
 def load_image(path):
-    image = cv2.imread(path, 0)
+    image = cv2.imread(path)
     image = image.astype(np.float32, copy=False)
     image /= 255.0
     image = image * 2.0 - 1.0
@@ -56,8 +56,10 @@ class LFWDataset(Dataset):
                     rtn_dict[key] = [val]
                 else:
                     rtn_dict[key].append(val)
+
         for key, _ in rtn_dict.items():
             rtn_dict[key] = np.array(rtn_dict[key])
+            
         return rtn_dict
         
 

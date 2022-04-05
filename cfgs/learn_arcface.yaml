@@ -1,8 +1,10 @@
 model:
-    type: "cnn"
+    type: "resnet18"
 
 dataset:
-    data_dir: "./data/LFW" 
+    data_dir: "./data/ms1m-retinaface-t1" 
+    num_classes: 93431
+    num_image: 5179510
 
 dataloader:
     batch_size: 64

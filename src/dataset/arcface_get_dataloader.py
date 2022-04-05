@@ -2,8 +2,8 @@ from torch.utils.data import DataLoader
 
 
 def get_train_dataloader(cfg):
-    from .lfw_dataset import LFWDataset
-    dataset = LFWDataset(cfg["dataset"])
+    from .arcface_dataset import MXFaceDataset
+    dataset = MXFaceDataset(cfg["dataset"]["data_dir"])
 
     return DataLoader(
         dataset,
@@ -11,7 +11,7 @@ def get_train_dataloader(cfg):
         pin_memory=True,
         num_workers=cfg["dataloader"]["num_workers"],
         shuffle=True,
-        collate_fn=dataset.collate_batch,
+        # collate_fn=dataset.collate_batch,
     )
 
 def get_test_dataloader(cfg):
