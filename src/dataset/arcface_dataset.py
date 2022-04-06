@@ -18,7 +18,8 @@ class MXFaceDataset(Dataset):
             [transforms.ToPILImage(),
              transforms.RandomHorizontalFlip(),
              transforms.ToTensor(),
-             transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+             transforms.Normalize(mean=[0.5], std=[0.5]),
+            #  transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
              ])
         self.root_dir = root_dir
         self.local_rank = local_rank
@@ -48,4 +49,4 @@ class MXFaceDataset(Dataset):
 
     def __len__(self):
         # return len(self.imgidx)
-        return 300
+        return 1000

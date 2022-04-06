@@ -10,7 +10,7 @@ def get_train_dataloader(cfg):
         batch_size=cfg["dataloader"]["batch_size"],
         pin_memory=True,
         num_workers=cfg["dataloader"]["num_workers"],
-        shuffle=True,
+        shuffle=False,
         # collate_fn=dataset.collate_batch,
     )
 
