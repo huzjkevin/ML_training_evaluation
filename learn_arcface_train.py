@@ -1,7 +1,3 @@
-'''
-A hello world training script for demonstrating the ML pipeline
-'''
-
 import torch
 import torchvision
 from torch import optim
@@ -11,7 +7,7 @@ import argparse
 import yaml
 import os
 
-from src.dataset.arcface_get_dataloader import get_train_dataloader
+from src.dataset.arcface_get_dataloader import get_train_dataloader, get_test_dataloader
 from src.pipeline.pipeline import Pipeline
 from src.model.get_model import get_model
 
@@ -23,7 +19,7 @@ def run_training(model, pipeline, cfg):
 
 
 def run_evaluation(model, pipeline, cfg):
-    test_loader = create_test_dataloader(
+    test_loader = get_test_dataloader(
         data_path=cfg["dataset"]["data_dir"], batch_size=cfg["dataloader"]["batch_size"], num_workers=cfg["dataloader"]["num_workers"]
     )
     pipeline.hw_evaluate(model, test_loader, tb_prefix="TEST")

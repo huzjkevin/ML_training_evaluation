@@ -3,7 +3,7 @@ def get_model(cfg):
         from .cnn import CNN
 
         return CNN()
-    elif cfg["model"]["type"] == "resnet18":
+    elif cfg["model"]["type"] in  ["resnet18", "resnet50"]:
         from .resnet import ResNetFace
-        return ResNetFace(cfg["model"]["type"])
+        return ResNetFace(cfg)
 

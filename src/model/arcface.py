@@ -8,7 +8,7 @@ import math
 class ArcFace(torch.nn.Module):
     """ ArcFace (https://arxiv.org/pdf/1801.07698v1.pdf):
     """
-    def __init__(self, s=64.0, margin=0.5, num_classes=93431):
+    def __init__(self, s=64.0, margin=0.5, num_classes=211):
         super(ArcFace, self).__init__()
         self.scale = s
         self.cos_m = math.cos(margin)
@@ -43,7 +43,7 @@ class ArcFace(torch.nn.Module):
 
         logits[index, labels[index].view(-1)] = final_target_logit
         logits = logits * self.scale
-        
+
         return logits
 
     @staticmethod

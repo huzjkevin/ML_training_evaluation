@@ -3,12 +3,14 @@ model:
 
 dataset:
     data_dir: "./data/ms1m-retinaface-t1" 
-    num_classes: 93431
+    # num_classes: 93431
+    # num_classes: 211 # when only use the first 12800 samples
+    num_classes: 803 # when only use the first 12800 * 4 samples
     num_image: 5179510
 
 dataloader:
     batch_size: 64
-    num_workers: 1
+    num_workers: 8
 
 pipeline:
     Trainer:
@@ -20,9 +22,9 @@ pipeline:
     Optim:
         scheduler_kwargs:
             epoch0: 0
-            epoch1: 40
-            lr0: 1.e-2
-            lr1: 1.e-4
+            epoch1: 100
+            lr0: 1.e-4
+            lr1: 1.e-8
 
     Logger:
         log_dir: "./logs/"

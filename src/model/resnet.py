@@ -133,7 +133,7 @@ class ResNet(nn.Module):
                              "or a 3-element tuple, got {}".format(replace_stride_with_dilation))
         self.groups = groups
         self.base_width = width_per_group
-        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
+        self.conv1 = nn.Conv2d(1, self.inplanes, kernel_size=7, stride=2, padding=3,
                                bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
@@ -146,7 +146,7 @@ class ResNet(nn.Module):
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
                                        dilate=replace_stride_with_dilation[2])
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.dropout = nn.Dropout()
+        self.dropout = nn.Dropout(p=0.3)
         self.fc = nn.Linear(512 * block.expansion, 512)
         
         # self.fc5 = nn.Linear(512 * 8 * 8, 512)
@@ -197,19 +197,21 @@ class ResNet(nn.Module):
         # See note [TorchScript super()]
         x = self.conv1(x)
         x = self.bn1(x)
+        # if torch.any(torch.isnan(x)):
+        #     for parameters in self.bn1.parameters():
+        #         print(parameters)
+        #     print(1) 
         x = self.relu(x)
         x = self.maxpool(x)
-
         x = self.layer1(x)
         x = self.layer2(x)
         x = self.layer3(x)
         x = self.layer4(x)
-
         x = self.avgpool(x)
-        # x = self.dropout(x)
         x = torch.flatten(x, 1)
         x = self.fc(x)
-        x = self.bn2(x)
+        x = self.dropout(x)
+        # x = self.bn2(x)
         # x = self.relu(x)
 
         return x
@@ -219,20 +221,27 @@ class ResNet(nn.Module):
 
 
 class ResNetFace(nn.Module):
-    def __init__(self, resnet_type="resnet18", num_classes=1000):
+    def __init__(self, cfg):
         super(ResNetFace, self).__init__()
+
+        resnet_type = cfg["model"]["type"]
 
         if resnet_type == "resnet18":
             self.resnet = resnet18()
+        elif resnet_type == "resnet50":
+            self.resnet = resnet50()
         else:
             raise NotImplementedError
         
-        self.arcface_layer = ArcFace()
+        self.arcface_layer = ArcFace(num_classes=cfg["dataset"]["num_classes"])
     
-    def forward(self, x, labels):
+    def forward(self, x, labels=None):
         emb = self.resnet(x)
-        logits = self.arcface_layer(emb, labels)
+        
+        if labels is None:
+            return emb
 
+        logits = self.arcface_layer(emb, labels)
         return emb, logits
 
     @staticmethod
